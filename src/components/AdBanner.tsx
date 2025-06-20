@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 interface AdBannerProps {
@@ -10,6 +11,7 @@ interface AdBannerProps {
 
 const AdBanner = ({ adSlot, className }: AdBannerProps) => {
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
+  const pathname = usePathname();
 
   useEffect(() => {
     if (adClient) {
@@ -20,7 +22,7 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
         console.error('AdSense error:', err);
       }
     }
-  }, [adSlot, adClient]);
+  }, [pathname, adSlot]);
 
   if (!adClient || adClient === 'ca-pub-3344588854972492') {
     return (
@@ -36,6 +38,7 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
         <p>Advertisement</p>
       </div>
        <ins
+        key={`${pathname}-${adSlot}`}
         className="adsbygoogle"
         style={{ display: 'block', width: '100%' }}
         data-ad-client={adClient}
