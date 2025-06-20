@@ -16,24 +16,16 @@ declare global {
 }
 
 const AdBanner = ({ adSlot, className }: AdBannerProps) => {
-  const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
+  const adClient = 'ca-pub-3344588854972492';
   const pathname = usePathname();
 
   useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
-      // This error can occur in development and is safe to ignore.
+      console.error('AdSense error:', err);
     }
-  }, []);
-
-  if (!adClient) {
-    return (
-      <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
-        <p className="text-muted-foreground text-sm p-4">Advertisement Placeholder</p>
-      </div>
-    );
-  }
+  }, [pathname, adSlot]);
 
   // A unique key based on the page path and the specific ad slot ensures
   // that React replaces the component entirely on navigation, preventing
