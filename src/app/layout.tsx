@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'VerbaViva: Spanish Conjugation Assistant',
+  title: 'VerbaVivaEspañol: Spanish Conjugation Assistant',
   description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides.',
 };
 

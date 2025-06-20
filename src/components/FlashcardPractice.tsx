@@ -50,7 +50,7 @@ const FlashcardPractice = () => {
   const [cardIndex, setCardIndex] = useState(0);
 
   useEffect(() => {
-    const storedHighScore = localStorage.getItem('verbaVivaHighScore');
+    const storedHighScore = localStorage.getItem('verbaVivaEspanolHighScore');
     if (storedHighScore) {
       setHighScore(Number(storedHighScore));
     }
@@ -80,7 +80,7 @@ const FlashcardPractice = () => {
       setScore(newScore);
       if (newScore > highScore) {
         setHighScore(newScore);
-        localStorage.setItem('verbaVivaHighScore', String(newScore));
+        localStorage.setItem('verbaVivaEspanolHighScore', String(newScore));
       }
     } else {
       setIsLoading(true);
