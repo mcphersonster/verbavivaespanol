@@ -40,7 +40,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <Script
-          async
+          id="adsbygoogle-script"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3344588854972492"
           crossOrigin="anonymous"
           strategy="lazyOnload"
