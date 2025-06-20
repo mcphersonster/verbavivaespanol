@@ -7,6 +7,8 @@ import {
 } from '@/components/ui/card';
 import AdBanner from './AdBanner';
 import SerEstarPractice from './SerEstarPractice';
+import PreteriteImperfectPractice from './PreteriteImperfectPractice';
+import SubjunctivePractice from './SubjunctivePractice';
 
 const GrammarGuides = () => {
   return (
@@ -134,6 +136,7 @@ const GrammarGuides = () => {
                 (Yesterday, I ate paella for the first time.) - Specific, completed action.
               </li>
             </ol>
+            <PreteriteImperfectPractice />
           </CardContent>
         </Card>
       </section>
@@ -181,6 +184,7 @@ const GrammarGuides = () => {
                 (I don't believe it's true.) - Doubt/Denial
               </li>
             </ol>
+            <SubjunctivePractice />
           </CardContent>
         </Card>
       </section>
