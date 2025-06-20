@@ -15,13 +15,14 @@ const GeneratePersonalizedFeedbackInputSchema = z.object({
   verb: z.string().describe('The Spanish verb being conjugated.'),
   pronoun: z.string().describe('The pronoun used in the conjugation.'),
   tense: z.string().describe('The tense in which the verb is conjugated.'),
-  userAnswer: z.string().describe('The user\'s answer to the conjugation question.'),
+  userAnswer: z.string().describe("The user's answer to the conjugation question."),
   correctAnswer: z.string().describe('The correct answer to the conjugation question.'),
 });
 export type GeneratePersonalizedFeedbackInput = z.infer<typeof GeneratePersonalizedFeedbackInputSchema>;
 
 const GeneratePersonalizedFeedbackOutputSchema = z.object({
-  feedback: z.string().describe('Personalized feedback on the user\'s answer.'),
+  spanishFeedback: z.string().describe("Personalized feedback on the user's answer, written in encouraging Spanish. Explain the error and the correct rule concisely, keeping it under 50 words."),
+  englishTranslation: z.string().describe("A direct English translation of the Spanish feedback."),
 });
 export type GeneratePersonalizedFeedbackOutput = z.infer<typeof GeneratePersonalizedFeedbackOutputSchema>;
 
@@ -40,8 +41,9 @@ const prompt = ai.definePrompt({
   The student was asked to conjugate the verb '{{verb}}' for the pronoun '{{pronoun}}' in the {{tense}} tense.
   The student answered '{{userAnswer}}', but the correct answer is '{{correctAnswer}}'.
 
-  Provide helpful and encouraging feedback to the student.  Explain why the correct answer is correct, and, if the student's answer is close, explain how they can improve.  Focus on common mistakes and patterns.
-  Keep the feedback concise and under 50 words.
+  Provide helpful and encouraging feedback to the student in Spanish. Explain why the correct answer is correct and, if the student's answer is close, explain how they can improve. Focus on common mistakes and patterns.
+  
+  Then, provide an English translation of your feedback.
   `,
 });
 

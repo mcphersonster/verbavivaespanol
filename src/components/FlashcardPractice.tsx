@@ -54,7 +54,7 @@ const practiceQuestions: PracticeQuestion[] = [
 const FlashcardPractice = () => {
   const [currentQuestion, setCurrentQuestion] = useState<PracticeQuestion | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [feedback, setFeedback] = useState<string | { spanish: string; english: string } | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   
   const [score, setScore] = useState(0);
@@ -77,7 +77,7 @@ const FlashcardPractice = () => {
   const loadNewQuestion = () => {
     setIsAnswered(false);
     setIsCorrect(null);
-    setFeedback('');
+    setFeedback(null);
     setUserAnswer('');
     const newIndex = (questionIndex + 1) % shuffledQuestions.length;
     setQuestionIndex(newIndex);
@@ -101,16 +101,22 @@ const FlashcardPractice = () => {
       }
     } else {
       setIsLoading(true);
-      setFeedback('');
+      setFeedback(null);
       try {
         const aiFeedback = await generatePersonalizedFeedback({
           ...currentQuestion,
           userAnswer: userAnswer.trim(),
         });
-        setFeedback(aiFeedback.feedback);
+        setFeedback({ 
+          spanish: aiFeedback.spanishFeedback, 
+          english: aiFeedback.englishTranslation 
+        });
       } catch (error) {
         console.error('Error fetching AI feedback:', error);
-        setFeedback(`The correct answer is: ${currentQuestion.correctAnswer}`);
+        setFeedback({ 
+          spanish: 'Lo siento, no se pudo generar la explicación.',
+          english: 'Sorry, unable to generate an explanation.'
+        });
       } finally {
         setIsLoading(false);
       }
@@ -194,9 +200,22 @@ const FlashcardPractice = () => {
                 {isLoading ? (
                   <Loader2 className="h-6 w-6 animate-spin text-primary" />
                 ) : (
-                  <div className="flex items-start gap-3">
-                    {isCorrect ? <CheckCircle className="h-6 w-6 text-green-600 mt-1 shrink-0" /> : <XCircle className="h-6 w-6 text-red-600 mt-1 shrink-0" />}
-                    <p className="text-left">{feedback}</p>
+                  <div className="flex items-start gap-3 w-full">
+                    {isCorrect ? (
+                        <CheckCircle className="h-6 w-6 text-green-600 mt-1 shrink-0" />
+                    ) : (
+                        <XCircle className="h-6 w-6 text-red-600 mt-1 shrink-0" />
+                    )}
+                    <div className="text-left w-full text-base">
+                        {typeof feedback === 'string' && <p>{feedback}</p>}
+                        {typeof feedback === 'object' && feedback !== null && (
+                            <div className="space-y-2">
+                                <p><strong>Correct Answer:</strong> <span className="font-mono bg-muted px-1.5 py-0.5 rounded">{currentQuestion?.correctAnswer}</span></p>
+                                {feedback.spanish && <p>{feedback.spanish}</p>}
+                                {feedback.english && <p className="text-sm text-muted-foreground italic">"{feedback.english}"</p>}
+                            </div>
+                        )}
+                    </div>
                   </div>
                 )}
               </div>
