@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useId } from 'react';
+import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -9,38 +9,47 @@ interface AdBannerProps {
   className?: string;
 }
 
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+    adsbygoogle_pushed_page_path: string;
+  }
+}
+
 const AdBanner = ({ adSlot, className }: AdBannerProps) => {
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
   const pathname = usePathname();
-  const id = useId();
 
   useEffect(() => {
-    if (adClient) {
+    // We only want to push ads once per page view. We use a global window
+    // variable to track if ads have been pushed for the current path.
+    if (typeof window !== 'undefined' && window.adsbygoogle_pushed_page_path !== pathname) {
       try {
-        // @ts-ignore
         (window.adsbygoogle = window.adsbygoogle || []).push({});
+        window.adsbygoogle_pushed_page_path = pathname;
       } catch (err) {
-        // This error is common in development due to React's Strict Mode & Fast Refresh.
-        // It can be safely ignored.
+        // This error can occur in development and is safe to ignore.
       }
     }
-  }, [pathname, adSlot]);
+  }, [pathname]);
 
   if (!adClient || adClient === 'ca-pub-3344588854972492') {
     return (
-       <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
+      <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
         <p className="text-muted-foreground text-sm p-4">Advertisement Placeholder</p>
       </div>
-    )
+    );
   }
 
+  // A unique key based on the page path and the specific ad slot ensures
+  // that React replaces the component entirely on navigation, preventing
+  // conflicts with the AdSense script.
   return (
-    <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
+    <div key={`${pathname}-${adSlot}`} className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
       <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm pointer-events-none">
         <p>Advertisement</p>
       </div>
-       <ins
-        key={`${id}-${pathname}-${adSlot}`}
+      <ins
         className="adsbygoogle"
         style={{ display: 'block', width: '100%' }}
         data-ad-client={adClient}
