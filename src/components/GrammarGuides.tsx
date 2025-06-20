@@ -23,32 +23,7 @@ const GrammarGuides = () => {
           </CardHeader>
           <CardContent className="text-lg space-y-4 leading-relaxed">
             <p>
-              Grasping when to use `ser` versus `estar` is fundamental to speaking Spanish correctly. Here are a few examples to get started:
-            </p>
-            <div className="grid md:grid-cols-2 gap-6 my-4 text-base">
-                <div className="space-y-2">
-                    <h3 className="font-bold text-primary text-xl font-headline">Examples with Ser</h3>
-                    <ul className="list-disc pl-5 space-y-1">
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Yo soy profesor.</span> (I am a teacher.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">El cielo es azul.</span> (The sky is blue.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Hoy es martes.</span> (Today is Tuesday.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Ella es de Argentina.</span> (She is from Argentina.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Ustedes son mis padres.</span> (You are my parents.)</li>
-                    </ul>
-                </div>
-                <div className="space-y-2">
-                    <h3 className="font-bold text-green-800 text-xl font-headline">Examples with Estar</h3>
-                     <ul className="list-disc pl-5 space-y-1">
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">El gato está dormido.</span> (The cat is asleep.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Estamos en la biblioteca.</span> (We are in the library.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Yo estoy muy cansado.</span> (I am very tired.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">La silla está rota.</span> (The chair is broken.)</li>
-                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Tú estás hablando.</span> (You are speaking.)</li>
-                    </ul>
-                </div>
-            </div>
-            <p>
-              While both `ser` and `estar` mean "to be," they are not
+              Grasping when to use `ser` versus `estar` is fundamental to speaking Spanish correctly. While both `ser` and `estar` mean "to be," they are not
               interchangeable. Use `ser` for permanent qualities and `estar` for
               temporary states. To remember, use these acronyms:
             </p>
@@ -74,6 +49,28 @@ const GrammarGuides = () => {
                   <li><strong>E</strong>motion</li>
                 </ul>
               </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 my-4 text-base">
+                <div className="space-y-2">
+                    <h3 className="font-bold text-primary text-xl font-headline">Examples with Ser</h3>
+                    <ul className="list-disc pl-5 space-y-1">
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Yo soy profesor.</span> (I am a teacher.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">El cielo es azul.</span> (The sky is blue.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Hoy es martes.</span> (Today is Tuesday.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Ella es de Argentina.</span> (She is from Argentina.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Ustedes son mis padres.</span> (You are my parents.)</li>
+                    </ul>
+                </div>
+                <div className="space-y-2">
+                    <h3 className="font-bold text-green-800 text-xl font-headline">Examples with Estar</h3>
+                     <ul className="list-disc pl-5 space-y-1">
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">El gato está dormido.</span> (The cat is asleep.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Estamos en la biblioteca.</span> (We are in the library.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Yo estoy muy cansado.</span> (I am very tired.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">La silla está rota.</span> (The chair is broken.)</li>
+                        <li><span className="font-mono bg-muted px-2 py-1 rounded">Tú estás hablando.</span> (You are speaking.)</li>
+                    </ul>
+                </div>
             </div>
             <p>
               <strong>Key Exception:</strong> The location of an{' '}
