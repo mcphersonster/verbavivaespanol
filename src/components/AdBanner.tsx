@@ -12,7 +12,6 @@ interface AdBannerProps {
 declare global {
   interface Window {
     adsbygoogle: any[];
-    adsbygoogle_pushed_page_path: string;
   }
 }
 
@@ -21,17 +20,12 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    // We only want to push ads once per page view. We use a global window
-    // variable to track if ads have been pushed for the current path.
-    if (typeof window !== 'undefined' && window.adsbygoogle_pushed_page_path !== pathname) {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        window.adsbygoogle_pushed_page_path = pathname;
-      } catch (err) {
-        // This error can occur in development and is safe to ignore.
-      }
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      // This error can occur in development and is safe to ignore.
     }
-  }, [pathname]);
+  }, []);
 
   if (!adClient) {
     return (
