@@ -33,7 +33,7 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
     }
   }, [pathname]);
 
-  if (!adClient || adClient === 'ca-pub-3344588854972492') {
+  if (!adClient) {
     return (
       <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
         <p className="text-muted-foreground text-sm p-4">Advertisement Placeholder</p>
