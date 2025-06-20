@@ -16,13 +16,16 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
     } catch (err) {
       console.error('AdSense error:', err);
     }
-  }, []);
+  }, [adSlot]);
 
   return (
-    <div className={cn("text-center min-h-[50px]", className)}>
+    <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
+      <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm pointer-events-none">
+        <p>Advertisement</p>
+      </div>
        <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{ display: 'block', width: '100%' }}
         data-ad-client="ca-pub-3344588854972492"
         data-ad-slot={adSlot}
         data-ad-format="auto"
