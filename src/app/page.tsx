@@ -20,6 +20,7 @@ export default function Home() {
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 xl:col-span-9 space-y-8">
             <GrammarGuides />
+            <AdBanner adSlot="1551132615" />
             <FlashcardPractice />
           </div>
           <aside className="lg:col-span-4 xl:col-span-3">
@@ -28,10 +29,6 @@ export default function Home() {
               <AdBanner adSlot="3909702645" />
             </div>
           </aside>
-        </div>
-
-        <div className="mt-8">
-           <AdBanner adSlot="1551132615" />
         </div>
       </main>
       <Footer />
