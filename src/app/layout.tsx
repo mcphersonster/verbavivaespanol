@@ -5,7 +5,20 @@ import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'VerbaVivaEspañol: Spanish Conjugation Assistant',
-  description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides.',
+  description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides on Ser vs. Estar, Preterite vs. Imperfect, and the Subjunctive.',
+  keywords: [
+    'Spanish conjugation',
+    'learn Spanish',
+    'Spanish verbs',
+    'conjugation practice',
+    'ser vs estar',
+    'preterite vs imperfect',
+    'Spanish subjunctive',
+    'Spanish grammar',
+    'language learning',
+    'AI tutor',
+    'VerbaVivaEspañol',
+  ],
 };
 
 export default function RootLayout({
