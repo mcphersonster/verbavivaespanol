@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useId } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -12,6 +12,7 @@ interface AdBannerProps {
 const AdBanner = ({ adSlot, className }: AdBannerProps) => {
   const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
   const pathname = usePathname();
+  const id = useId();
 
   useEffect(() => {
     if (adClient) {
@@ -19,7 +20,8 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
         // @ts-ignore
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (err) {
-        console.error('AdSense error:', err);
+        // This error is common in development due to React's Strict Mode & Fast Refresh.
+        // It can be safely ignored.
       }
     }
   }, [pathname, adSlot]);
@@ -38,7 +40,7 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
         <p>Advertisement</p>
       </div>
        <ins
-        key={`${pathname}-${adSlot}`}
+        key={`${id}-${pathname}-${adSlot}`}
         className="adsbygoogle"
         style={{ display: 'block', width: '100%' }}
         data-ad-client={adClient}
