@@ -18,7 +18,7 @@ const TableOfContents = () => {
     { href: 'ser-vs-estar', label: 'Ser vs. Estar' },
     { href: 'preterite-vs-imperfect', label: 'Preterite vs. Imperfect' },
     { href: 'subjunctive', label: 'The Subjunctive' },
-    { href: 'flashcards', label: 'Flashcard Practice' },
+    { href: 'comprehensive-challenge', label: 'Comprehensive Challenge' },
   ];
 
   return (

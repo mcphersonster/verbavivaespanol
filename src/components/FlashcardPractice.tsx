@@ -13,28 +13,46 @@ import { Input } from '@/components/ui/input';
 import { generatePersonalizedFeedback } from '@/ai/flows/generate-feedback';
 import { ArrowRight, CheckCircle, Flame, Loader2, Target, XCircle } from 'lucide-react';
 
-type Flashcard = {
+type PracticeQuestion = {
+  prompt: string;
   verb: string;
   pronoun: string;
   tense: string;
   correctAnswer: string;
 };
 
-const flashcardVerbs: Flashcard[] = [
-  { verb: 'hablar', pronoun: 'yo', tense: 'present', correctAnswer: 'hablo' },
-  { verb: 'comer', pronoun: 'él/ella/ud.', tense: 'present', correctAnswer: 'come' },
-  { verb: 'vivir', pronoun: 'nosotros', tense: 'present', correctAnswer: 'vivimos' },
-  { verb: 'ser', pronoun: 'tú', tense: 'present', correctAnswer: 'eres' },
-  { verb: 'estar', pronoun: 'yo', tense: 'present', correctAnswer: 'estoy' },
-  { verb: 'tener', pronoun: 'yo', tense: 'present', correctAnswer: 'tengo' },
-  { verb: 'ir', pronoun: 'ellos/ellas/uds.', tense: 'present', correctAnswer: 'van' },
-  { verb: 'hacer', pronoun: 'tú', tense: 'preterite', correctAnswer: 'hiciste' },
-  { verb: 'decir', pronoun: 'yo', tense: 'imperfect', correctAnswer: 'decía' },
-  { verb: 'querer', pronoun: 'nosotros', tense: 'subjunctive', correctAnswer: 'queramos'},
+const practiceQuestions: PracticeQuestion[] = [
+  // Ser vs. Estar
+  { prompt: 'Yo ___ de México. (ser)', verb: 'ser', pronoun: 'yo', tense: 'present', correctAnswer: 'soy' },
+  { prompt: 'La sopa ___ fría. (estar)', verb: 'estar', pronoun: 'la sopa', tense: 'present', correctAnswer: 'está' },
+  { prompt: 'Nosotros ___ doctores. (ser)', verb: 'ser', pronoun: 'nosotros', tense: 'present', correctAnswer: 'somos' },
+  { prompt: 'El libro ___ sobre la mesa. (estar)', verb: 'estar', pronoun: 'el libro', tense: 'present', correctAnswer: 'está' },
+  { prompt: 'La fiesta ___ en mi casa. (ser)', verb: 'ser', pronoun: 'la fiesta', tense: 'present', correctAnswer: 'es' },
+  
+  // Preterite vs. Imperfect
+  { prompt: 'Yo ___ por el parque cuando vi a un amigo. (caminar)', verb: 'caminar', pronoun: 'yo', tense: 'imperfect', correctAnswer: 'caminaba' },
+  { prompt: 'Ayer, nosotros ___ al cine. (ir)', verb: 'ir', pronoun: 'nosotros', tense: 'preterite', correctAnswer: 'fuimos' },
+  { prompt: 'Cuando era niño, siempre ___ con mis amigos. (jugar)', verb: 'jugar', pronoun: 'yo', tense: 'imperfect', correctAnswer: 'jugaba' },
+  { prompt: 'De repente, el perro ___. (ladrar)', verb: 'ladrar', pronoun: 'el perro', tense: 'preterite', correctAnswer: 'ladró' },
+  { prompt: 'Anoche, yo ___ la tarea muy rápido. (terminar)', verb: 'terminar', pronoun: 'yo', tense: 'preterite', correctAnswer: 'terminé' },
+
+  // Subjunctive
+  { prompt: 'Espero que (tú) ___ un buen viaje. (tener)', verb: 'tener', pronoun: 'tú', tense: 'subjunctive', correctAnswer: 'tengas' },
+  { prompt: 'No creo que ___ a llover hoy. (ir)', verb: 'ir', pronoun: 'ello', tense: 'subjunctive', correctAnswer: 'vaya' },
+  { prompt: 'Te recomiendo que (tú) ___ ese libro. (leer)', verb: 'leer', pronoun: 'tú', tense: 'subjunctive', correctAnswer: 'leas' },
+  { prompt: 'Ojalá ___ buen tiempo mañana. (hacer)', verb: 'hacer', pronoun: 'ello', tense: 'subjunctive', correctAnswer: 'haga' },
+  { prompt: 'Mi madre quiere que yo ___ mi cuarto. (limpiar)', verb: 'limpiar', pronoun: 'yo', tense: 'subjunctive', correctAnswer: 'limpie' },
+  
+  // General Conjugation
+  { prompt: 'yo → hablar (present)', verb: 'hablar', pronoun: 'yo', tense: 'present', correctAnswer: 'hablo' },
+  { prompt: 'tú → ser (present)', verb: 'ser', pronoun: 'tú', tense: 'present', correctAnswer: 'eres' },
+  { prompt: 'nosotros → vivir (present)', verb: 'vivir', pronoun: 'nosotros', tense: 'present', correctAnswer: 'vivimos' },
+  { prompt: 'tú → hacer (preterite)', verb: 'hacer', pronoun: 'tú', tense: 'preterite', correctAnswer: 'hiciste' },
+  { prompt: 'ellos → ir (present)', verb: 'ir', pronoun: 'ellos/ellas/uds.', tense: 'present', correctAnswer: 'van' },
 ];
 
 const FlashcardPractice = () => {
-  const [currentCard, setCurrentCard] = useState<Flashcard | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<PracticeQuestion | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [feedback, setFeedback] = useState('');
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -45,33 +63,32 @@ const FlashcardPractice = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   
-  // Memoize a shuffled list of verbs to avoid repeating the same card immediately
-  const shuffledVerbs = useMemo(() => [...flashcardVerbs].sort(() => Math.random() - 0.5), []);
-  const [cardIndex, setCardIndex] = useState(0);
+  const shuffledQuestions = useMemo(() => [...practiceQuestions].sort(() => Math.random() - 0.5), []);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   useEffect(() => {
     const storedHighScore = localStorage.getItem('verbaVivaEspanolHighScore');
     if (storedHighScore) {
       setHighScore(Number(storedHighScore));
     }
-    loadNewCard();
+    loadNewQuestion();
   }, []);
 
-  const loadNewCard = () => {
+  const loadNewQuestion = () => {
     setIsAnswered(false);
     setIsCorrect(null);
     setFeedback('');
     setUserAnswer('');
-    const newIndex = (cardIndex + 1) % shuffledVerbs.length;
-    setCardIndex(newIndex);
-    setCurrentCard(shuffledVerbs[newIndex]);
+    const newIndex = (questionIndex + 1) % shuffledQuestions.length;
+    setQuestionIndex(newIndex);
+    setCurrentQuestion(shuffledQuestions[newIndex]);
   };
 
   const handleCheckAnswer = async () => {
-    if (!currentCard || !userAnswer.trim()) return;
+    if (!currentQuestion || !userAnswer.trim()) return;
 
     setIsAnswered(true);
-    const answerIsCorrect = userAnswer.trim().toLowerCase() === currentCard.correctAnswer;
+    const answerIsCorrect = userAnswer.trim().toLowerCase() === currentQuestion.correctAnswer;
     setIsCorrect(answerIsCorrect);
 
     if (answerIsCorrect) {
@@ -87,13 +104,13 @@ const FlashcardPractice = () => {
       setFeedback('');
       try {
         const aiFeedback = await generatePersonalizedFeedback({
-          ...currentCard,
+          ...currentQuestion,
           userAnswer: userAnswer.trim(),
         });
         setFeedback(aiFeedback.feedback);
       } catch (error) {
         console.error('Error fetching AI feedback:', error);
-        setFeedback(`The correct answer is: ${currentCard.correctAnswer}`);
+        setFeedback(`The correct answer is: ${currentQuestion.correctAnswer}`);
       } finally {
         setIsLoading(false);
       }
@@ -106,25 +123,25 @@ const FlashcardPractice = () => {
     }
   };
   
-  if (!currentCard) {
+  if (!currentQuestion) {
     return (
-      <Card id="flashcards" className="text-center p-8">
+      <Card id="comprehensive-challenge" className="text-center p-8">
         <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
-        <p className="mt-4">Loading flashcards...</p>
+        <p className="mt-4">Loading challenge...</p>
       </Card>
     )
   }
 
   return (
-    <section id="flashcards">
+    <section id="comprehensive-challenge">
       <Card className="transition-shadow hover:shadow-xl">
         <CardHeader>
           <CardTitle className="font-headline text-3xl text-primary flex items-center gap-3">
             <Flame className="h-7 w-7" />
-            Flashcard Practice
+            Comprehensive Challenge
           </CardTitle>
           <CardDescription className="text-base">
-            Test your knowledge and get instant AI-powered feedback.
+            A mix of questions covering all topics to test your mastery.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -140,9 +157,9 @@ const FlashcardPractice = () => {
           </div>
           
           <div className="bg-background/50 p-6 rounded-lg text-center border-2 border-dashed">
-            <p className="text-xl mb-2">Conjugate the verb:</p>
+            <p className="text-xl mb-2">Complete the sentence or conjugate:</p>
             <h3 className="text-3xl font-bold text-primary font-headline mb-4">
-              {currentCard.pronoun} &rarr; {currentCard.verb} <span className="text-foreground/70 text-2xl">({currentCard.tense})</span>
+              {currentQuestion.prompt.replace('___', '______')}
             </h3>
             
             <div className="max-w-xs mx-auto">
@@ -162,7 +179,7 @@ const FlashcardPractice = () => {
               {!isAnswered ? (
                  <Button onClick={handleCheckAnswer} size="lg" disabled={!userAnswer.trim()}>Check Answer</Button>
               ) : (
-                <Button onClick={loadNewCard} size="lg" variant="secondary">Next Verb <ArrowRight className="ml-2 h-5 w-5"/></Button>
+                <Button onClick={loadNewQuestion} size="lg" variant="secondary">Next Question <ArrowRight className="ml-2 h-5 w-5"/></Button>
               )}
             </div>
 
