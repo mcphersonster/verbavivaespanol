@@ -19,11 +19,7 @@ const fontHeadline = Belleza({
 });
 
 export const metadata: Metadata = {
-<<<<<<< HEAD
-  title: 'verbaviva.com',
-=======
   title: 'verbaviva.com: Spanish Conjugation Assistant',
->>>>>>> a3d923fc7c3523264717d703b31a4783e862400f
   description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides on Ser vs. Estar, Preterite vs. Imperfect, and the Subjunctive.',
   keywords: [
     'Spanish conjugation',
@@ -48,15 +44,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-<<<<<<< HEAD
   const adClient = "ca-pub-3344588854972492";
 
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={cn("scroll-smooth", fontBody.variable, fontHeadline.variable)}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Belleza&display=swap" rel="stylesheet" />
         {adClient && (
           <Script
             id="adsense-script"
@@ -70,20 +62,6 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
-=======
-  return (
-    <html lang="en" className={cn("scroll-smooth", fontBody.variable, fontHeadline.variable)}>
-      <head />
-      <body className="font-body antialiased">
-        {children}
-        <Toaster />
-        <Script
-          id="adsbygoogle-script"
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUB_ID}`}
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
->>>>>>> a3d923fc7c3523264717d703b31a4783e862400f
       </body>
     </html>
   );
