@@ -19,7 +19,7 @@ const fontHeadline = Belleza({
 });
 
 export const metadata: Metadata = {
-  title: 'VerbaVivaEspañol: Spanish Conjugation Assistant',
+  title: 'verbaviva.com: Spanish Conjugation Assistant',
   description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides on Ser vs. Estar, Preterite vs. Imperfect, and the Subjunctive.',
   keywords: [
     'Spanish conjugation',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     'Spanish grammar',
     'language learning',
     'AI tutor',
-    'VerbaVivaEspañol',
+    'verbaviva.com',
   ],
   icons: {
     icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇪🇸</text></svg>',
