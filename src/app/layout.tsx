@@ -52,7 +52,7 @@ export default function RootLayout({
         <Toaster />
         <Script
           id="adsbygoogle-script"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3344588854972492"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_PUB_ID}`}
           crossOrigin="anonymous"
           strategy="lazyOnload"
         />

@@ -16,7 +16,7 @@ declare global {
 }
 
 const AdBanner = ({ adSlot, className }: AdBannerProps) => {
-  const adClient = 'ca-pub-3344588854972492';
+  const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
   const pathname = usePathname();
 
   useEffect(() => {
