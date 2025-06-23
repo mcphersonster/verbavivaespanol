@@ -12,7 +12,6 @@ interface AdBannerProps {
 declare global {
   interface Window {
     adsbygoogle: any[];
-    adsbygoogle_pushed_page_path: string;
   }
 }
 
@@ -21,25 +20,12 @@ const AdBanner = ({ adSlot, className }: AdBannerProps) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    // We only want to push ads once per page view. We use a global window
-    // variable to track if ads have been pushed for the current path.
-    if (typeof window !== 'undefined' && window.adsbygoogle_pushed_page_path !== pathname) {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        window.adsbygoogle_pushed_page_path = pathname;
-      } catch (err) {
-        // This error can occur in development and is safe to ignore.
-      }
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error('AdSense error:', err);
     }
-  }, [pathname]);
-
-  if (!adClient) {
-    return (
-      <div className={cn("relative text-center min-h-[90px] bg-muted/20 border border-dashed rounded-lg flex items-center justify-center overflow-hidden", className)}>
-        <p className="text-muted-foreground text-sm p-4">Advertisement Placeholder</p>
-      </div>
-    );
-  }
+  }, [pathname, adSlot]);
 
   // A unique key based on the page path and the specific ad slot ensures
   // that React replaces the component entirely on navigation, preventing
