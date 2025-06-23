@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import Script from 'next/script';
 
 export const metadata: Metadata = {
-  title: 'verbaviva.com: Spanish Conjugation Assistant',
+  title: 'verbaviva.com',
   description: 'Master Spanish verb conjugation with interactive flashcards, AI-powered feedback, and clear grammar guides on Ser vs. Estar, Preterite vs. Imperfect, and the Subjunctive.',
   keywords: [
     'Spanish conjugation',
@@ -29,7 +29,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const adClient = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
+  const adClient = "ca-pub-3344588854972492";
 
   return (
     <html lang="en" className="scroll-smooth">
