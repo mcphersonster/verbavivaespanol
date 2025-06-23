@@ -8,7 +8,7 @@ const Header = () => {
         <div className="flex items-center gap-4">
           <BookOpenText className="h-10 w-10" />
           <div>
-            <h1 className="text-4xl md:text-5xl font-headline">verbaviva.com</h1>
+            <h1 className="text-4xl md:text-5xl font-headline">SpanishPracticeSimply.com</h1>
             <p className="mt-1 text-lg opacity-90">Your Ultimate Spanish Conjugation Guide</p>
           </div>
         </div>
